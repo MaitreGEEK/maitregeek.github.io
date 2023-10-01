@@ -1,0 +1,361 @@
+div::-webkit-scrollbar {
+    display: none;
+}
+
+section {
+    color: white;
+}
+
+nav div {
+    z-index: 2;
+}
+
+#home {
+    position: absolute;
+    top: 11.5%;
+    left: 11%;
+    transform: translateX(-94%);
+    font-size: 20px;
+}
+
+#play {
+    position: absolute;
+    top: 19%;
+    left: 11%;
+    transform: translateX(-94%);
+    font-size: 20px;
+}
+
+#community {
+    position: absolute;
+    top: 26%;
+    left: 12%;
+    transform: translateX(-93%);
+    font-size: 20px;
+}
+
+#wiki {
+    position: absolute;
+    top: 82%;
+    left: 11%;
+    transform: translateX(-94%);
+    font-size: 20px;
+}
+
+nav div a:hover {
+    color: white;
+}
+
+nav div a {
+    color: #4D3319;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.20s;
+}
+
+.social-icon {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px;
+}
+
+#discord:hover,
+#youtube:hover,
+#twitter:hover,
+#instagram:hover,
+#tiktok:hover {
+    width: 64px;
+    height: 64px;
+}
+
+#discord {
+    position: absolute;
+    top: 18%;
+    right: 36.5%;
+    transform: translateX(63.5%);
+    z-index: 2;
+    transition: all 0.4s;
+    width: 32px;
+    height: 32px;
+}
+
+#youtube {
+    position: absolute;
+    top: 18%;
+    right: 31.5%;
+    transform: translateX(68.5%);
+    z-index: 2;
+    transition: all 0.4s;
+    width: 32px;
+    height: 32px;
+}
+
+#twitter {
+    position: absolute;
+    top: 18%;
+    right: 26.5%;
+    transform: translateX(73.5%);
+    z-index: 2;
+    transition: all 0.4s;
+    width: 32px;
+    height: 32px;
+}
+
+#instagram {
+    position: absolute;
+    top: 18%;
+    right: 21.5%;
+    transform: translateX(78.5%);
+    z-index: 2;
+    transition: all 0.4s;
+    width: 32px;
+    height: 32px;
+}
+
+#tiktok {
+    position: absolute;
+    top: 18%;
+    right: 16.5%;
+    transform: translateX(93.5%);
+    z-index: 2;
+    transition: all 0.4s;
+    width: 32px;
+    height: 32px;
+}
+
+.contact-button {
+    position: absolute;
+    top: 40%;
+    right: 27%;
+    transform: translateX(73%);
+    z-index: 2;
+}
+
+.contact-button a {
+    color: #fff;
+    text-decoration: underline transparent;
+    line-height: 0;
+    transition: color 0.20s;
+}
+
+.contact-button a:hover {
+    color: #321;
+}
+
+.login a {
+    background-color: #34A3DA;
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    position: absolute;
+    top: 70%;
+    right: 35%;
+    transform: translateX(65%);
+    padding: 5px 10px;
+    z-index: 2;
+}
+
+.login a:first-child {
+    background-color: #fff;
+    color: #333;
+}
+
+.login a:hover {
+    background-color: #34A3DA;
+    color: #fff;
+    transition: background-color 0.3s;
+}
+
+.register a {
+    background-color: #fff;
+    color: #fff;
+    border-radius: 4px;
+    text-decoration: none;
+    padding: 5px 10px;
+    position: absolute;
+    top: 70%;
+    right: 20%;
+    transform: translateX(80%);
+    z-index: 2;
+}
+
+.register a:first-child {
+    background-color: #34A3DA;
+    color: #fff;
+}
+
+.register a:hover {
+    background-color: #fff;
+    color: black;
+    transition: background-color 0.3s;
+}
+
+.social-icon i {
+    font-size: 24px;
+    margin: 0 5px;
+}
+
+.copyright {
+    position: absolute;
+    top: 45%;
+    right: 30%;
+    transform: translateX(70%);
+    z-index: 2;
+}
+
+.container {
+    position: absolute;
+    top: 16%;
+    left: 32%;
+    transform: translateX(-68%);
+    color: white;
+    text-align: center;
+    width: 30%;
+    z-index: 2;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+
+    body {
+        overflow: scroll;
+    }
+
+    nav li {
+        left: 5%;
+    }
+
+    .login {
+        left: 25%;
+        transform: translateX(-75%);
+        font-size: 14px;
+        padding: 2.5px 5px;
+    }
+
+    .register {
+        left: 55%;
+        transform: translateX(-45%);
+        font-size: 14px;
+        padding: 2.5px 5px;
+    }
+
+    .copyright {
+        position: absolute;
+        top: 45%;
+        right: 52%;
+        transform: translateX(50%);
+        font-size: 12px;
+    }
+
+    .contact-button {
+        right: 52%;
+        top: 35%;
+        transform: translateX(48%);
+    }
+
+    .container {
+        position: absolute;
+        width: 80%;
+        height: 75%;
+        max-height: 75%;
+        overflow: scroll;
+        top: 6%;
+    }
+
+    #home {
+        font-size: 12px;
+        top: 11.5%;
+        left: 20%;
+        transform: translateX(-80%);
+    }
+
+    #play {
+        font-size: 12px;
+        top: 19%;
+        left: 20%;
+        transform: translateX(-80%);
+    }
+
+    #community {
+        font-size: 12px;
+        top: 26%;
+        left: 22%;
+        transform: translateX(-78%);
+    }
+
+    #wiki {
+        font-size: 12px;
+        top: 82%;
+        left: 20%;
+        transform: translateX(-80%);
+    }
+
+    #discord {
+        top: 18%;
+        right: 75%;
+        transform: translateX(25%);
+    }
+
+    #youtube {
+        top: 18%;
+        right: 64%;
+        transform: translateX(36%);
+    }
+
+    #twitter {
+        top: 18%;
+        right: 53%;
+        transform: translateX(47%);
+    }
+
+    #instagram {
+        top: 18%;
+        right: 42%;
+        transform: translateX(58%);
+    }
+
+    #tiktok {
+        top: 18%;
+        right: 31%;
+        transform: translateX(69%);
+    }
+
+}
+
+@media (max-width: 1024px) and (orientation: landscape) {
+
+    nav li {
+        left: 5%;
+    }
+
+    .login a {
+        top: 5%;
+        left: 85%;
+    }
+
+    .register a {
+        top: 52%;
+        left: 83%;
+    }
+
+    .copyright {
+        left: 30px;
+    }
+
+    .contact-button {
+        top: 15%;
+        left: 47%
+    }
+
+    .container {
+        position: absolute;
+        width: 90%;
+        height: 60%;
+        top: 13%;
+        overflow: scroll;
+    }
+
+    .social-links {
+        padding-top: 25px;
+    }
+
+}
