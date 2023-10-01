@@ -1,19 +1,19 @@
 let book = [ // Livre représenté sous forme d'une liste, chaque élément représente une page
-    { display: [".background_img"], animation: '/assets/icons/background/book_open_2.gif', arrows: "none", infinite_anim: false },
-    { display: [".content", ".features", ".feature",], animation: { left: '/assets/icons/background/book_close.gif', right: '/assets/icons/background/page_turn.gif' }, arrows: "both" },
-    { display: [".features", '.feature_2', ".feature_3"], animation: { left: '/assets/icons/background/page_unturn.gif', right: '/assets/icons/background/page_turn.gif' }, arrows: "both" },
-    { display: ["header", "footer"], animation: { left: '/assets/icons/background/page_unturn.gif' }, infinite_anim: false, arrows: "left", background: "/assets/icons/background/home_background.png" },
+    { display: [".background_img"], animation: 'book_open_2.gif', arrows: "none", infinite_anim: false },
+    { display: [".content", ".features", ".feature",], animation: { left: 'book_close.gif', right: 'page_turn.gif' }, arrows: "both" },
+    { display: [".features", '.feature_2', ".feature_3"], animation: { left: 'page_unturn.gif', right: 'page_turn.gif' }, arrows: "both" },
+    { display: ["header", "footer"], animation: { left: 'page_unturn.gif' }, infinite_anim: false, arrows: "left", background: "home_background.png" },
     //{ display: [""], animation: '' },
 ]
 
 let mobile_book = [
-    { display: [".background_img"], animation: '/assets/icons/background/book_open_2.gif', arrows: "none", infinite_anim: false },
-    { display: [".content"], animation: { left: '/assets/icons/background/book_close.gif', right: '/assets/icons/background/page_turn.gif' }, background: "/assets/icons/background/demi_page_left.png", infinite_anim: false, arrows: "both" },
-    { display: [".features", ".feature",], animation: { left: '/assets/icons/background/page_turn.gif', right: '/assets/icons/background/page_turn.gif' }, background: "/assets/icons/background/demi_page_right.png", infinite_anim: false, arrows: "both" },
-    { display: [".features", '.feature_2'], animation: { left: '/assets/icons/background/page_turn.gif', right: '/assets/icons/background/page_turn.gif' }, background: "/assets/icons/background/demi_page_left.png", infinite_anim: false, arrows: "both" },
-    { display: [".features", ".feature_3"], animation: { left: '/assets/icons/background/page_turn.gif', right: '/assets/icons/background/page_turn.gif' }, background: "/assets/icons/background/demi_page_right.png", infinite_anim: false, arrows: "both" },
-    { display: ["header"], animation: { left: '/assets/icons/background/page_turn.gif', right: '/assets/icons/background/page_turn.gif' }, background: "/assets/icons/background/demi_page_home_background.png", infinite_anim: false, arrows: "both" },
-    { display: ["footer"], animation: { left: '/assets/icons/background/page_turn.gif' }, background: "/assets/icons/background/demi_page_right.png", infinite_anim: false, arrows: "left" },
+    { display: [".background_img"], animation: 'book_open_2.gif', arrows: "none", infinite_anim: false },
+    { display: [".content"], animation: { left: 'book_close.gif', right: 'page_turn.gif' }, background: "demi_page_left.png", infinite_anim: false, arrows: "both" },
+    { display: [".features", ".feature",], animation: { left: 'page_turn.gif', right: 'page_turn.gif' }, background: "demi_page_right.png", infinite_anim: false, arrows: "both" },
+    { display: [".features", '.feature_2'], animation: { left: 'page_turn.gif', right: 'page_turn.gif' }, background: "demi_page_left.png", infinite_anim: false, arrows: "both" },
+    { display: [".features", ".feature_3"], animation: { left: 'page_turn.gif', right: 'page_turn.gif' }, background: "demi_page_right.png", infinite_anim: false, arrows: "both" },
+    { display: ["header"], animation: { left: 'page_turn.gif', right: 'page_turn.gif' }, background: "demi_page_home_background.png", infinite_anim: false, arrows: "both" },
+    { display: ["footer"], animation: { left: 'page_turn.gif' }, background: "demi_page_right.png", infinite_anim: false, arrows: "left" },
 ]
 
 let all_elements = ["#left_arrow", "#right_arrow"]
