@@ -2,7 +2,7 @@ html {
     background-attachment: fixed;
     width: auto;
     height: 100%;
-    background-image: url(../assets/demi_page_left_paysage.png);
+    background-image: url(./demi_page_left_paysage.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
