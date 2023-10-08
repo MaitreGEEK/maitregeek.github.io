@@ -1,173 +1,414 @@
+class Game {
+    constructor(ball_speed, timerMax, score_max, level_num) {
 
-function game() {
-    const game_button = document.getElementById("game_button")
-    game_button.style.display = "none"
+        if (ball_speed> Math.floor(ball_speed)) ball_speed = Math.floor(ball_speed) + 0.5 
+        //La vélocité de la balle est sa vitesse de déplacement
+        this.ball.velocityX = ball_speed
+        this.ball.velocityY = ball_speed
+        this.timer.max = Math.floor(timerMax)
+        this.player1.score = score_max
+        this.level = level_num
 
-    var canvas = document.getElementById("game");
-    var context = canvas.getContext("2d");
+        //Set timer
+        let timerElt = document.getElementById("timer") || document.createElement('div')
+        timerElt.id = "timer"
+        timerElt.style.color = "white"
+        timerElt.style.display = "block"
+        timerElt.innerHTML = Math.floor(timerMax)
+        document.body.appendChild(timerElt)
+    }
 
-    var player1 = {
+    canvas = document.getElementById("game");
+    context = this.canvas.getContext("2d");
+
+    timer = {
+        now: 0,
+        max: 60
+    }
+
+    stop = true
+
+    player1 = {
         x: 5,
         y: 220,
         width: 10,
         height: 90,
-        score: 0
+        score: 0,
+        speed: 10,
+        color: "blue",
     };
 
-    var player2 = {
+    player2 = {
         x: 825,
         y: 220,
         width: 10,
         height: 90,
-        score: 0
+        score: 0,
+        speed: 10,
+        color: "red",
     };
 
-    var ball = {
+    ball = {
         x: 320,
         y: 240,
         radius: 10,
-        speed: 5,
         velocityX: 10,
-        velocityY: 10
+        velocityY: 10,
+        color: "white",
     };
 
-    function collisionDetection(ball, player) {
-        if (ball.x < player.x + player.width &&
-            ball.x + ball.radius > player.x &&
-            ball.y < player.y + player.height &&
-            ball.y + ball.radius > player.y) {
+    keys = [];
+    arrowUpButtonPressed = false;
+    arrowDownButtonPressed = false;
+
+    timer_incr() {
+        if (this.stop == true) return
+        this.timer.now += 1
+        document.getElementById('timer').innerHTML = Math.floor(this.timer.max - this.timer.now)
+        if (Math.floor(this.timer.max - this.timer.now) <= 10) document.getElementById('timer').style.color = "red"
+        if (Math.floor(this.timer.max - this.timer.now) <= 0) this.end_game((this.player1.score >= this.player2.score))
+    }
+
+    /**
+     * Check the colisions of the selected player
+     * @param { Object } player - The selected player
+     * @returns If the selected player have a colision of not
+     */
+    collisionDetection(player) {
+        if ((this.ball.x <= player.x + player.width) && (this.ball.x + this.ball.radius >= player.x) && (this.ball.y <= player.y + player.height) && (this.ball.y + this.ball.radius >= player.y)) {
             return true;
         } else {
             return false;
         }
     }
 
-    function draw() {
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.fillStyle = "white";
-        context.fillRect(player1.x, player1.y, player1.width, player1.height);
-        context.fillRect(player2.x, player2.y, player2.width, player2.height);
-        context.beginPath();
-        context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-        context.fill();
-        context.font = "30px Calibri";
-        context.fillText(player1.score, 100, 50);
-        context.fillText(player2.score, canvas.width - 100, 50);
+    /**
+     * Draw the Current scene
+     */
+    draw() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        //Player 1
+        this.context.fillStyle = this.player1.color;
+        this.context.fillRect(this.player1.x, this.player1.y, this.player1.width, this.player1.height);
+        //Player 2 
+        this.context.fillStyle = this.player2.color;
+        this.context.fillRect(this.player2.x, this.player2.y, this.player2.width, this.player2.height);
+
+        this.context.beginPath();
+        //Ball
+        this.context.fillStyle = this.ball.color;
+        this.context.arc(this.ball.x, this.ball.y, this.ball.radius, 0, Math.PI * 2);
+        this.context.fill();
+
+        this.context.font = "30px Courrier New";
+
+        //Player 1 Score
+        this.context.fillStyle = this.player1.color
+        this.context.fillText(this.player1.score, 100, 50);
+
+        //Player 2 Scores
+        this.context.fillStyle = this.player2.color
+        this.context.fillText(this.player2.score, this.canvas.width - 100, 50);
     }
 
-    function movement() {
-
-        if ((keys[38] || keys[90] || keys[87] || arrowUpButtonPressed) && player1.y > 0) {
-            player1.y -= 10;
-        } else if ((keys[83] || keys[40] || arrowDownButtonPressed) && player1.y < canvas.height - player1.height) {
-            player1.y += 10;
+    /**
+     * Move the player in function of the key pressed
+     */
+    movement() {
+        if ((this.keys[38] || this.keys[90] || this.keys[87] || this.arrowUpButtonPressed) && this.player1.y > 0) {
+            this.player1.y -= this.player1.speed;
+        } else if ((this.keys[83] || this.keys[40] || this.arrowDownButtonPressed) && this.player1.y < this.canvas.height - this.player1.height) {
+            this.player1.y += this.player1.speed;
         }
 
-        if (ball.y > player2.y + player2.height / 2) {
-            player2.y += 10;
+        if (this.ball.y > this.player2.y + this.player2.height / 2) {
+            this.player2.y += this.player2.speed;
         } else {
-            player2.y -= 10;
+            this.player2.y -= this.player2.speed;
         }
     }
 
-    function update() {
-        ball.x += ball.velocityX;
-        ball.y += ball.velocityY;
+    /**
+     * Update the ball position
+     */
+    updateBall() {
+        this.ball.x += this.ball.velocityX;
+        this.ball.y += this.ball.velocityY;
 
 
-        if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
-            ball.velocityY = -ball.velocityY;
+        if (this.ball.y + this.ball.radius > this.canvas.height || this.ball.y - this.ball.radius < 0) {
+            this.ball.velocityY = -this.ball.velocityY;
         }
 
-
-        if (collisionDetection(ball, player1)) {
-            ball.velocityX = -ball.velocityX;
+        //Si la balle entre en collision avec un joueur, on doit lui donner une vitesse dans l'autre sens
+        if (this.collisionDetection(this.player1) || (this.collisionDetection(this.player2))) {
+            this.ball.velocityX = -this.ball.velocityX;
         }
 
-        if (collisionDetection(ball, player2)) {
-            ball.velocityX = -ball.velocityX;
+        //La balle a touché le but du joueur 1
+        if (this.ball.x - this.ball.radius < 0) {
+            this.player2.score++;
+            if (this.player2.score >= this.player1.score) this.end_game(false)
+            this.resetBall();
         }
 
-
-        if (ball.x - ball.radius < 0) {
-            player2.score++;
-            reset();
+        //La balle a touché le but du joueur 2
+        if (this.ball.x + this.ball.radius > this.canvas.width) {
+            this.player1.score++;
+            this.resetBall();
         }
 
-        if (ball.x + ball.radius > canvas.width) {
-            player1.score++;
-            reset();
-        }
-
-        draw();
-        movement();
+        this.draw();
+        this.movement();
     }
 
-    function reset() {
-        ball.x = canvas.width / 2;
-        ball.y = canvas.height / 2;
-        ball.velocityX = -ball.velocityX;
-        ball.speed = 5;
+    /**
+     * *Sert à reset la boule*
+     */
+    resetBall() {
+        this.ball.x = this.canvas.width / 2;
+        this.ball.y = this.canvas.height / 2;
+        this.ball.velocityX = -this.ball.velocityX;
+        //this.ball.speed = 5;
     }
 
-    //CLAVIER
-    var keys = [];
-    window.addEventListener("keydown", function (e) {
-        keys[e.keyCode] = true;
-    });
+    /**
+     * Permet de lire les input du joueur
+     */
+    input_reader() {
+        let keys = this.keys
+        let arrowUpButtonPressed = this.arrowUpButtonPressed
+        let arrowDownButtonPressed = this.arrowDownButtonPressed
 
-    window.addEventListener("keyup", function (e) {
-        delete keys[e.keyCode];
-    });
+        //CLAVIER
+        window.addEventListener("keydown", function (e) {
+            keys[e.keyCode] = true;
+        });
 
-    //PC CLICKS
-    var arrowUpButton = document.getElementById("arrowup");
-    var arrowDownButton = document.getElementById("arrowdown");
+        window.addEventListener("keyup", function (e) {
+            delete keys[e.keyCode];
+        });
 
-    var arrowUpButtonPressed = false;
-    var arrowDownButtonPressed = false;
+        //PC CLICKS
+        var arrowUpButton = document.getElementById("arrowup");
+        var arrowDownButton = document.getElementById("arrowdown");
 
-    arrowUpButton.addEventListener("mousedown", function () {
-        arrowUpButtonPressed = true;
-    });
+        arrowUpButton.addEventListener("mousedown", function () {
+            arrowUpButtonPressed = true;
+        });
 
-    arrowUpButton.addEventListener("mouseup", function () {
-        arrowUpButtonPressed = false;
-    });
+        arrowUpButton.addEventListener("mouseup", function () {
+            arrowUpButtonPressed = false;
+        });
 
-    arrowDownButton.addEventListener("mousedown", function () {
-        arrowDownButtonPressed = true;
-    });
+        arrowDownButton.addEventListener("mousedown", function () {
+            arrowDownButtonPressed = true;
+        });
 
-    arrowDownButton.addEventListener("mouseup", function () {
-        arrowDownButtonPressed = false;
-    });
-
-
-    //TACTILE MOBILE
-    arrowUpButton.addEventListener("touchstart", function (e) {
-        e.preventDefault(); // Empêche le comportement par défaut du navigateur (comme le défilement)
-        arrowUpButtonPressed = true;
-    });
-
-    arrowUpButton.addEventListener("touchend", function () {
-        arrowUpButtonPressed = false;
-    });
-
-    arrowDownButton.addEventListener("touchstart", function (e) {
-        e.preventDefault();
-        arrowDownButtonPressed = true;
-    });
-
-    arrowDownButton.addEventListener("touchend", function () {
-        arrowDownButtonPressed = false;
-    });
+        arrowDownButton.addEventListener("mouseup", function () {
+            arrowDownButtonPressed = false;
+        });
 
 
+        //TACTILE MOBILE
+        arrowUpButton.addEventListener("touchstart", function (e) {
+            e.preventDefault(); // Empêche le comportement par défaut du navigateur (comme le défilement)
+            arrowUpButtonPressed = true;
+        });
+
+        arrowUpButton.addEventListener("touchend", function () {
+            arrowUpButtonPressed = false;
+        });
+
+        arrowDownButton.addEventListener("touchstart", function (e) {
+            e.preventDefault();
+            arrowDownButtonPressed = true;
+        });
+
+        arrowDownButton.addEventListener("touchend", function () {
+            arrowDownButtonPressed = false;
+        });
+
+        this.keys = keys
+        this.arrowUpButtonPressed = arrowUpButtonPressed
+        this.arrowDownButtonPressed = arrowDownButtonPressed
+    }
+
+    end_game(playerWin, message = undefined) {
+        this.stop = true
+
+        //stats
+        let level = player.pong[mode].levels[this.level]
+        if (!level) {
+            level = {
+                played: 0,
+                wins: 0,
+                lose: 0,
+                high_score: undefined,
+                time_played: 0,
+            }
+        }
+        player.pong[mode].parties_played++;
+        level.played++;
+
+        let time = this.timer.now
+        player.pong[mode].time_played += time
+        level.time_played += time
+
+        //Calculate score
+        let score = this.player1.score - this.player2.score
+        if (level.high_score == undefined || score > level.high_score) {
+            level.high_score = score
+        }
+
+        //message
+        if (!message) {
+            if (playerWin) {
+                message = "You won. "
+                //stat
+                player.pong[mode].wins++;
+                level.wins++;
+                //Display next button
+                document.getElementById("next").style.display = "block"
+            }
+            else {
+                message = "Enemy won. "
+                //stat
+                player.pong[mode].lose++;
+                document.getElementById("restart").style.display = "block"
+                level.lose++;
+            }
+            message += "<br>Score: " + score.toLocaleString()
+        }
+
+        player.pong[mode].levels[this.level] = level
+
+        //Display win message
+        let win_message = document.getElementById("win_message") || document.createElement("div")
+        win_message.id = "win_message"
+        win_message.style.display = "block"
+        win_message.innerHTML = message
+        document.body.appendChild(win_message)
+
+        save("player", player)
+    }
+}
+
+//Get Player
+let player = get("player")
+if (!player) player = init_player()
+
+let play
+let mode = "flow"
+let cur_level = player.pong[mode].level
+
+
+function game() {
+    mode = document.getElementById('mode_select').value
+    cur_level = player.pong[mode].level
+    levels = init_levels(mode)
+    if (!levels) return
+    clear_game()
+    //Faire disparaitre le game button
+    document.getElementById("game_button").style.display = "none"
+
+    let level = levels[cur_level]
+    play = new Game(level[0], level[1], level[2], cur_level)
+    play.draw()
+    play.input_reader()
+    play.stop = false
+
+    //Game loop
     function gameLoop() {
-        update();
-        requestAnimationFrame(gameLoop);
+        if (play.stop != true) {
+            play.updateBall();
+            requestAnimationFrame(gameLoop);
+        }
     }
 
+    //Timer
+    play.interval = setInterval(() => {
+        if (!play.stop) {
+            play.timer_incr()
+        }
+    }, 1000)
+
+    save("player", player)
     gameLoop();
+}
+
+function next_level() {
+    //Player didn't win it
+    if (mode !== document.getElementById('mode_select').value) {
+        mode = document.getElementById('mode_select').value
+        cur_level = player.pong[mode].level
+    }
+    if (player.pong[mode].levels[cur_level].wins < 1) return clear_game()
+
+    if (levels.length - 1 < cur_level + 1) {
+        //Level doesn't exists
+        let check = gen_level(player.pong[mode].levels[cur_level], levels[cur_level])
+        if (!check) return clear_game()
+    }
+    cur_level += 1
+    clear_game()
+}
+
+function previous_level() {
+    if (mode !== document.getElementById('mode_select').value) {
+        mode = document.getElementById('mode_select').value
+        cur_level = player.pong[mode].level
+    }
+    if (cur_level != 0) {
+        cur_level -= 1
+        clear_game()
+    }
+}
+
+function clear_game() {
+    document.getElementById("game_button").style.display = "block"
+    document.getElementById("previous").style.display = "none"
+    document.getElementById("next").style.display = "none"
+    document.getElementById("restart").style.display = "none"
+    document.getElementById('level_name').innerHTML = "Level " + cur_level
+    if (mode !== document.getElementById('mode_select').value) {
+        mode = document.getElementById('mode_select').value
+        cur_level = player.pong[mode].level
+    }
+    if (!player.pong[mode].levels[cur_level]) {
+        player.pong[mode].levels[cur_level] = {
+            played: 0,
+            wins: 0,
+            lose: 0,
+            high_score: undefined,
+            time_played: 0,
+        }
+    }
+
+    if (player.pong[mode].levels[cur_level].wins >= 1) {
+        document.getElementById("next").style.display = "block"
+    }
+    if (cur_level > 0) {
+        document.getElementById("previous").style.display = "block"
+    }
+
+    if (play) {
+        play.stop = true
+        if (play.interval) {
+            clearInterval(play.interval)
+        }
+    }
+
+    let win_message = document.getElementById("win_message")
+    if (win_message) {
+        win_message.style.display = "none"
+    }
+    let timer = document.getElementById("timer")
+    if (timer) {
+        timer.style.display = "none"
+    }
+
+    player.pong[mode].level = cur_level
+    save("player", player)
 }

@@ -45,6 +45,8 @@
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="stylesheet" href="/error.css">
     <link rel="stylesheet" href="/global.css">
+    <script src="/functions.js"></script>
+    <script src="/levels.js"></script>
     <script src="/error.js"></script>
 </head>
 
@@ -53,8 +55,18 @@
         <h1>Error !</h1>
         <center><strong><span>Play a minigame instead</span></strong></center>
     </div>
+    <div id="level_name"></div>
+    <select id="mode_select">
+        <option value="flow">Flow</option>
+        <option value="superSpeed">Super Speed</option>
+        <option value="survival">Survival</option>
+        <option value="superSpeedSurvival">Super Speed Survival</option>
+    </select>
     <canvas id="game" width="840" height="450"></canvas>
     <button id="game_button" onclick="game()">SUMMON A MAGIK PONG GAME</button>
+    <button id="next" onclick="next_level()" style="display: none;">Next</button>
+    <button id="restart" onclick="game()" style="display: none;">Restart</button>
+    <button id="previous" onclick="previous_level()" style="display: none;">Previous</button>
 
     <img id="arrowup" class="arrow" src="/fleche.png">
     <img id="arrowdown" class="arrow" src="/fleche.png">
