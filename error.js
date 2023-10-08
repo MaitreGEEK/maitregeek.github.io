@@ -1,7 +1,7 @@
 class Game {
     constructor(ball_speed, timerMax, score_max, level_num) {
 
-        if (ball_speed> Math.floor(ball_speed)) ball_speed = Math.floor(ball_speed) + 0.5 
+        if (ball_speed > Math.floor(ball_speed)) ball_speed = Math.floor(ball_speed) + 0.5
         //La vélocité de la balle est sa vitesse de déplacement
         this.ball.velocityX = ball_speed
         this.ball.velocityY = ball_speed
@@ -178,8 +178,7 @@ class Game {
      */
     input_reader() {
         let keys = this.keys
-        let arrowUpButtonPressed = this.arrowUpButtonPressed
-        let arrowDownButtonPressed = this.arrowDownButtonPressed
+        let play_game = this
 
         //CLAVIER
         window.addEventListener("keydown", function (e) {
@@ -195,44 +194,42 @@ class Game {
         var arrowDownButton = document.getElementById("arrowdown");
 
         arrowUpButton.addEventListener("mousedown", function () {
-            arrowUpButtonPressed = true;
+            play_game.arrowUpButtonPressed = true;
         });
 
         arrowUpButton.addEventListener("mouseup", function () {
-            arrowUpButtonPressed = false;
+            play_game.arrowUpButtonPressed = false;
         });
 
         arrowDownButton.addEventListener("mousedown", function () {
-            arrowDownButtonPressed = true;
+            play_game.arrowDownButtonPressed = true;
         });
 
         arrowDownButton.addEventListener("mouseup", function () {
-            arrowDownButtonPressed = false;
+            play_game.arrowDownButtonPressed = false;
         });
 
 
         //TACTILE MOBILE
         arrowUpButton.addEventListener("touchstart", function (e) {
             e.preventDefault(); // Empêche le comportement par défaut du navigateur (comme le défilement)
-            arrowUpButtonPressed = true;
+            play_game.arrowUpButtonPressed = true;
         });
 
         arrowUpButton.addEventListener("touchend", function () {
-            arrowUpButtonPressed = false;
+            play_game.arrowUpButtonPressed = false;
         });
 
         arrowDownButton.addEventListener("touchstart", function (e) {
             e.preventDefault();
-            arrowDownButtonPressed = true;
+            play_game.arrowDownButtonPressed = true;
         });
 
         arrowDownButton.addEventListener("touchend", function () {
-            arrowDownButtonPressed = false;
+            play_game.arrowDownButtonPressed = false;
         });
 
         this.keys = keys
-        this.arrowUpButtonPressed = arrowUpButtonPressed
-        this.arrowDownButtonPressed = arrowDownButtonPressed
     }
 
     end_game(playerWin, message = undefined) {
