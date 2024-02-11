@@ -174,7 +174,7 @@ class Game {
     }
 
     /**
-     * Permet de lire les input du joueur
+     * Read player Inputs
      */
     input_reader() {
         let keys = this.keys
